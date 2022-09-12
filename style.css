@@ -10,7 +10,7 @@ body{
     justify-content: center;
     width:500px;
 }
-.screen{
+.screen, .info{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -20,13 +20,19 @@ body{
     background-color: black;
     color: azure;
     text-align:right;
+    flex-grow: 3;
+}
+
+.buttons{
+    display:flex;
+    width: 100%;
 }
 .numberpad{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width:100%;
+    width: 100%;
 }
 
 .row{
@@ -34,12 +40,20 @@ body{
     width: 100%;
 }
 
-.numbers{
+.operators{
+    display:flex;
+    flex-direction: column;
+    width: initial;
+}
+
+.numbers, .decimal, .clear, .back, .plusminus, .operator{
     flex-grow: 1;
     aspect-ratio: 1 / 1;
     background-color: black;
     color:white;
+    padding: 4px;
 }
+
 
 .zero{
     flex-grow: 2;
