@@ -6,36 +6,30 @@ const operators = calculator.querySelectorAll('.operator');
 const operatorsArray = Array.prototype.slice.call(operators);
 const decimalButton = calculator.querySelector('.decimal');
 const negButton = calculator.querySelector('.plusminus');
+const clearButton = calculator.querySelector('.clear');
 const numbersArray = Array.prototype.slice.call(numbers);
 let decimal = false;
+let firstInput = true;
 numbersArray.forEach(number => {
-    console.log(number.innerHTML)
     number.addEventListener('click', (event) => {
-        if(screen.innerHTML != 0){
-            screen.innerHTML += number.innerHTML;
-        }
-        else{
-            screen.innerHTML = number.innerHTML;
-        }
+        numbersLogic(number.innerHTML);
     });
 });
 operatorsArray.forEach(operator => {
     operator.addEventListener('click', (event) => {
-        if(operator.innerHTML === "="){
-            console.log(info.innerHTML + " " + screen.innerHTML + " =");
-            operate(convertToOperate(info.innerHTML + " " + screen.innerHTML + " ="));
-        }
-        info.innerHTML = info.innerHTML + " " + screen.innerHTML + " " + operator.innerHTML;
-        screen.innerHTML = "0";
-        decimal = false;
+        operatorLogic(operator.innerHTML);
     })
 })
 
+clearButton.addEventListener('click', (event) => {
+    info.innerHTML = "";
+    screen.innerHTML = "0";
+    firstInput = true;
+    decimal = false;
+})
+
 decimalButton.addEventListener('click', (event) => {
-    if(decimal == false){
-        decimal = true;
-        screen.innerHTML += "."
-    }
+    decimalLogic();
 });
 
 negButton.addEventListener('click', (event) => {
@@ -48,6 +42,52 @@ negButton.addEventListener('click', (event) => {
         }
     }
 })
+
+document.addEventListener('keydown', (event) => {
+    nums = ["1","2","3","4","5","6","7","8","9","0"]
+    ops = ["+","-","*","/", "Enter"]
+    if(nums.includes(event.key)){
+        numbersLogic(event.key);
+    }
+    if(ops.includes(event.key)){
+        operatorLogic(event.key);
+    }
+    if(event.key == "."){
+        decimalLogic();
+    }
+    console.log(event.key);
+  }, false);
+
+function numbersLogic(number){
+    if(firstInput === false){
+        screen.innerHTML += number;
+    }
+    else{
+        screen.innerHTML = number;
+        firstInput = false;
+    }
+}
+function operatorLogic(operator){
+    if(operator === "=" || operator == "Enter"){
+        screen.innerHTML = operate(convertToOperate(info.innerHTML + " " + screen.innerHTML + " ="));
+        info.innerHTML = "";
+        decimal = false;
+        firstInput = true;
+    }
+    else{
+        info.innerHTML = info.innerHTML + " " + screen.innerHTML + " " + operator;
+        decimal = false;
+        firstInput = true;
+    }
+}
+function decimalLogic(){
+    if(decimal == false){
+        decimal = true;
+        screen.innerHTML += "."
+        firstInput = false;
+    }
+}
+
 
 
 function add(a, b){
@@ -63,7 +103,7 @@ function divide(a, b){
     return a / b;
 }
 function operate(string){
-    opsToLook = ["+", "-", "x", "/"];
+    opsToLook = ["+", "-", "x", "/", "*"];
     paren = false;
     num = "";
     nums = [];
@@ -98,7 +138,7 @@ function operate(string){
             if(ops[n] == "-"){
                 final = subtract(nums[n], nums[Number(n) + 1]);
             }
-            if(ops[n] == "x"){
+            if(ops[n] == "x" || ops[n] == "*"){
                 final = multiply(nums[n], nums[Number(n) + 1]);
             }
             if(ops[n] == "/"){
@@ -111,7 +151,7 @@ function operate(string){
             if(ops[n] == "-"){
                 final = subtract(final, nums[Number(n) + 1]);
             }
-            if(ops[n] == "x"){
+            if(ops[n] == "x" || ops[n] == "*"){
                 final = multiply(final, nums[Number(n) + 1]);
             }
             if(ops[n] == "/"){
@@ -119,15 +159,17 @@ function operate(string){
             }
         }
     }
-    console.log(final);
-    console.log(`operate ${newString}!`)
+    if(ops.length === 0){
+        return nums[0];
+    }
+    return String(final);
 }
 
 //This function converts the string into something the operate function
 //can go through and evaluate (deletes useless decimals, spaces)
 function convertToOperate(string){
     const numbersArr = ["1","2","3","4","5","6","7","8","9","0"];
-    const opsArr = ["+", "-", "x", "/", "="];
+    const opsArr = ["+", "-", "x", "/", "=", "*"];
     newString = "("
     for(char in string){
         console.log(string[char]);

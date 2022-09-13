@@ -1,3 +1,8 @@
+*{
+    font-size: larger;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
 body{
     display: flex;
     align-items: center;
@@ -16,13 +21,16 @@ body{
     align-items: flex-end;
     box-sizing: border-box;
     width:100%;
-    padding: 10px;
+    height:75px;
+    padding:30px;
     background-color: black;
     color: azure;
     text-align:right;
     flex-grow: 3;
 }
-
+.info{
+    font-size: small;
+}
 .buttons{
     display:flex;
     width: 100%;
