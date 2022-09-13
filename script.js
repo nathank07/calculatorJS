@@ -55,11 +55,16 @@ document.addEventListener('keydown', (event) => {
     if(event.key == "."){
         decimalLogic();
     }
-    console.log(event.key);
+    if(event.key == "Backspace"){
+        backspaceLogic();
+    }
+    if(event.key == "Tab"){
+        event.preventDefault();
+    }
   }, false);
 
 function numbersLogic(number){
-    if(firstInput === false){
+    if(firstInput === false && screen.innerHTML != "0"){
         screen.innerHTML += number;
     }
     else{
@@ -87,7 +92,14 @@ function decimalLogic(){
         firstInput = false;
     }
 }
-
+function backspaceLogic(){
+    if(screen.innerHTML != 0){
+        screen.innerHTML = screen.innerHTML.slice(0, -1);
+        if(screen.innerHTML == "" || screen.innerHTML == "-"){
+            screen.innerHTML = "0";
+        }
+    }
+}
 
 
 function add(a, b){
