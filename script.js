@@ -58,7 +58,7 @@ document.addEventListener('keydown', (event) => {
     if(event.key == "Backspace"){
         backspaceLogic();
     }
-    if(event.key == "Tab"){
+    if(event.key == "Enter"){
         event.preventDefault();
     }
   }, false);
