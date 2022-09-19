@@ -7,6 +7,7 @@ const operatorsArray = Array.prototype.slice.call(operators);
 const decimalButton = calculator.querySelector('.decimal');
 const negButton = calculator.querySelector('.plusminus');
 const clearButton = calculator.querySelector('.clear');
+const backButton = calculator.querySelector('.back');
 const numbersArray = Array.prototype.slice.call(numbers);
 let decimal = false;
 let firstInput = true;
@@ -27,6 +28,10 @@ clearButton.addEventListener('click', (event) => {
     firstInput = true;
     decimal = false;
 })
+
+backButton.addEventListener('click', (event) => {
+    backspaceLogic();
+});
 
 decimalButton.addEventListener('click', (event) => {
     decimalLogic();
